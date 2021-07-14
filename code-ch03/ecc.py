@@ -6,7 +6,6 @@ import hmac
 
 
 class FieldElement:
-
     def __init__(self, num, prime):
         if num >= prime or num < 0:
             error = 'Num {} not in field range 0 to {}'.format(
@@ -287,13 +286,39 @@ class ECCTest(TestCase):
             (192, 105, 17, 56, 170, 142),
             (47, 71, 117, 141, 60, 139),
             (143, 98, 76, 66, 47, 71),
+            (170, 142, 60, 139, 220, 181),
+            (47, 71, 17, 56, 215, 68),
+            (143, 198, 76, 66, 47, 71)
         )
 
         # loop over additions
         # initialize x's and y's as FieldElements
         # create p1, p2 and p3 as Points
         # check p1+p2==p3
-        raise NotImplementedError
+        for coords in additions:
+            p1 = Point(
+              FieldElement(coords[0], prime),
+              FieldElement(coords[1], prime),
+              a,
+              b
+            )
+            p2 = Point(
+              FieldElement(coords[2], prime),
+              FieldElement(coords[3], prime),
+              a,
+              b
+            )
+            p3 = p1 + p2
+            
+            p3_expected = Point(
+                FieldElement(coords[4], prime),
+                FieldElement(coords[5], prime),
+                a,
+                b
+            )
+            
+            return p3 == p3_expected
+        return
 
     def test_rmul(self):
         # tests the following scalar multiplications
